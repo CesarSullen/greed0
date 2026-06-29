@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+		/>
+		<!-- Open Graph -->
+		<meta property="og:title" content="Greed0" />
+		<meta property="og:description" content="Organiza tu semana." />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="./assets/opengraph/opengraph.png" />
+		<!-- PWA -->
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="Greed0" />
+		<meta
+			name="apple-mobile-web-app-status-bar-style"
+			content="black-translucent"
+		/>
+		<meta name="theme-color" content="#0a0a0f" />
+		<!-- Icons -->
+		<link rel="icon" type="image/png" href="./assets/opengraph/logo.png" />
+		<link rel="apple-touch-icon" href="./assets/opengraph/logo.png" />
+		<!-- Styles y manifest -->
+		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="manifest" href="./manifest.json" />
+		<title>Greed0</title>
+	</head>
+	<body>
+		<header class="main-header">
+			<div class="header-left">
+				<span class="app-name">Greed<span class="logo-accent">0</span></span>
+				<span class="app-tagline">WEEKLY SCHEDULER</span>
+			</div>
+			<div class="header-actions">
+				<button class="btn-icon" id="btn-import" title="Importar">
+					<img src="./assets/icons/cloud-arrow-down-bold.svg" />
+				</button>
+				<button class="btn-icon" id="btn-export" title="Exportar">
+					<img src="./assets/icons/cloud-arrow-up-bold.svg" />
+				</button>
+			</div>
+		</header>
+
+		<main class="app-container">
+			<div class="table-wrapper">
+				<table id="schedule-table" class="schedule-table">
+					<thead>
+						<tr id="days-row">
+							<th class="col-time">
+								<span class="col-time-label">HORA</span>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">LUN</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">MAR</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">MIÉ</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">JUE</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">VIE</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">SÁB</span></span
+								>
+							</th>
+							<th class="col-time">
+								<span class="day-header-inner"
+									><span class="day-name">DOM</span></span
+								>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="schedule-body"></tbody>
+				</table>
+			</div>
+			<div class="table-actions">
+				<button class="btn-add-row" id="btn-add-row">
+					<span class="icon-text">+</span> AÑADIR FRANJA HORARIA
+				</button>
+			</div>
+		</main>
+
+		<div class="modal" id="modal-cell">
+			<div class="modal-box">
+				<div class="modal-header">
+					<span class="modal-title" id="modal-cell-title">BLOQUE</span>
+					<button class="btn-modal-close" onclick="closeModal('modal-cell')">
+						✕
+					</button>
+				</div>
+				<div class="modal-body">
+					<label class="field-label">ACTIVIDAD</label>
+					<input
+						type="text"
+						id="cell-input-text"
+						class="field-input"
+						placeholder="Ej: Programación, Gimnasio..."
+						autocomplete="off"
+						maxlength="60"
+					/>
+					<label class="field-label" style="margin-top: 1rem">COLOR</label>
+					<div class="color-picker-row" id="color-picker-row"></div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn-secondary" id="btn-cell-clear">LIMPIAR</button>
+					<button class="btn-primary" id="btn-cell-save">GUARDAR</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modal-time">
+			<div class="modal-box">
+				<div class="modal-header">
+					<span class="modal-title">NUEVA FRANJA</span>
+					<button class="btn-modal-close" onclick="closeModal('modal-time')">
+						✕
+					</button>
+				</div>
+				<div class="modal-body">
+					<p class="modal-hint" id="modal-time-hint"></p>
+					<div class="time-selectors">
+						<div class="time-group">
+							<label class="field-label">INICIO</label>
+							<div class="time-inputs">
+								<select id="time-start-h" class="field-select"></select>
+								<span class="time-sep">:</span>
+								<select id="time-start-m" class="field-select"></select>
+							</div>
+						</div>
+						<div class="time-arrow">▶</div>
+						<div class="time-group">
+							<label class="field-label">FIN</label>
+							<div class="time-inputs">
+								<select id="time-end-h" class="field-select"></select>
+								<span class="time-sep">:</span>
+								<select id="time-end-m" class="field-select"></select>
+							</div>
+						</div>
+					</div>
+					<p class="field-error" id="time-error" style="display: none"></p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn-secondary" onclick="closeModal('modal-time')">
+						CANCELAR
+					</button>
+					<button class="btn-primary" id="btn-time-save">AÑADIR</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modal-confirm">
+			<div class="modal-box modal-box-sm">
+				<div class="modal-header">
+					<span class="modal-title">CONFIRMAR</span>
+				</div>
+				<div class="modal-body">
+					<p class="modal-confirm-msg" id="modal-confirm-msg"></p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn-secondary" onclick="closeModal('modal-confirm')">
+						CANCELAR
+					</button>
+					<button class="btn-danger" id="btn-confirm-ok">ELIMINAR</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="toast-container"></div>
+		<input type="file" id="file-input" accept=".json" style="display: none" />
+		<script src="./js/main.js"></script>
+	</body>
+</html>
