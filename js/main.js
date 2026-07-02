@@ -471,7 +471,7 @@ async function trackProjectActivity(projectName) {
 	}
 }
 
-/* Promise.race([
+Promise.race([
 	Promise.all([trackProjectActivity("Greed0")]),
 	new Promise((resolve) => setTimeout(resolve, 3000)),
 ]);
@@ -487,4 +487,4 @@ if ("serviceWorker" in navigator) {
 				console.log("Fallo al registrar el SW:", error);
 			});
 	});
-} */
+}
