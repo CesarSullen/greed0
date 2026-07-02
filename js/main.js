@@ -434,6 +434,23 @@ document.addEventListener("keydown", (e) => {
 loadFromStorage();
 renderRows();
 
+async function trackProjectActivity(projectName) {
+	try {
+		const { error } = await _supabase.rpc("increment_visit", {
+			name_param: projectName,
+		});
+
+		if (error) throw error;
+	} catch (err) {
+		console.warn("Offline mode");
+	}
+}
+
+Promise.race([
+	Promise.all([trackProjectActivity("Greed0")]),
+	new Promise((resolve) => setTimeout(resolve, 3000)),
+]);
+
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", () => {
 		navigator.serviceWorker
