@@ -99,6 +99,29 @@ function minutesToTime(mins) {
 }
 
 /* Render */
+function highlightCurrentActivity() {
+	const now = new Date();
+	const jsDay = now.getDay();
+
+	const currentDayIndex = jsDay === 0 ? 6 : jsDay - 1;
+	const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+	const activeRow = db.rows.find((row) => {
+		const startMins = timeToMinutes(row.start);
+		const endMins = timeToMinutes(row.end);
+		return currentMinutes >= startMins && currentMinutes < endMins;
+	});
+
+	if (activeRow) {
+		const query = `.cell-activity[data-row-id="${activeRow.id}"][data-day-index="${currentDayIndex}"]`;
+		const activeCell = document.querySelector(query);
+
+		if (activeCell) {
+			activeCell.classList.add("current");
+		}
+	}
+}
+
 function renderRows() {
 	const tbody = document.getElementById("schedule-body");
 	tbody.innerHTML = "";
@@ -145,6 +168,8 @@ function renderRows() {
 			confirmDeleteRow(btn.dataset.rowId);
 		});
 	});
+
+	highlightCurrentActivity();
 }
 
 /* Modals Logic */
@@ -446,7 +471,7 @@ async function trackProjectActivity(projectName) {
 	}
 }
 
-Promise.race([
+/* Promise.race([
 	Promise.all([trackProjectActivity("Greed0")]),
 	new Promise((resolve) => setTimeout(resolve, 3000)),
 ]);
@@ -462,4 +487,4 @@ if ("serviceWorker" in navigator) {
 				console.log("Fallo al registrar el SW:", error);
 			});
 	});
-}
+} */

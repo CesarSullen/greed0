@@ -199,6 +199,7 @@ textarea {
 
 .table-wrapper {
 	overflow-x: auto;
+	position: relative;
 }
 
 .schedule-table {
@@ -206,6 +207,7 @@ textarea {
 	min-width: 600px;
 	border-collapse: collapse;
 	table-layout: fixed;
+	position: relative;
 }
 
 .col-time {
@@ -230,6 +232,12 @@ textarea {
 
 .schedule-table thead th.col-time {
 	text-align: center;
+}
+
+.schedule-table tbody tr td:first-child {
+	position: sticky;
+	left: -1px;
+	z-index: 2;
 }
 
 .col-time-label {
@@ -346,6 +354,14 @@ textarea {
 		border-color: var(--accent);
 		filter: brightness(1.2);
 	}
+}
+
+.cell-activity.current {
+	background: var(--bg-surface) !important;
+	color: var(--accent) !important;
+	border-color: var(--accent) !important;
+	border-width: 2px;
+	z-index: 5;
 }
 
 .btn-delete-row {

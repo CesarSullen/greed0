@@ -1,4 +1,4 @@
-const CACHE_NAME = "greed0-v1.0.1";
+const CACHE_NAME = "greed0-v1.0.2";
 const STATIC_ASSETS = [
 	// Page
 	"./",
